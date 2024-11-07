@@ -1,16 +1,19 @@
 import { PrismaClient } from "@prisma/client";
-import { ICompanyRepository } from "./ICompanyRepository";
-import { CreateCompanyDTO } from "@/domain/dto/Company.dto";
-import { HttpException } from "@/domain/models/HttpException";
 import { randomUUID } from "crypto";
 
+import { CreateCompanyDTO } from "@/domain/dto/Company.dto";
+import { HttpException } from "@/domain/models/HttpException";
+
+import { CompanyUserAccessLevel } from "@/domain/entities/CompanyUser.entity";
+
+import { ICompanyRepository } from "./ICompanyRepository";
 export class CompanyRepository implements ICompanyRepository {
   constructor (
     private prisma: PrismaClient
   ) {}
 
 
-  async create (payload: CreateCompanyDTO) {
+  async create (user_id: string, payload: CreateCompanyDTO) {
     const companyExist = await this.prisma.company.findFirst({
       where: {
         cnpj: payload.cnpj
@@ -22,10 +25,14 @@ export class CompanyRepository implements ICompanyRepository {
     await this.prisma.company.create({
       data: {
         id: randomUUID(),
-        cnpj: payload.cnpj,
-        name: payload.name,
-        site: payload.site,
-        type: payload.type,
+        ...payload,
+        users: {
+          create: {
+            id: randomUUID(),
+            user_id,
+            access_level: CompanyUserAccessLevel.ADMIN
+          }
+        }
       }
     })
   }

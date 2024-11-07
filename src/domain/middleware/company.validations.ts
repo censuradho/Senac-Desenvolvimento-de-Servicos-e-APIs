@@ -1,20 +1,23 @@
 import { NextFunction, Request, Response } from 'express';
-import { SignInWithEmailAndPAsswordDTO } from '../dto/Auth.dto';
 import { validateOrReject } from 'class-validator';
+import { CreateCompanyDTO } from '../dto/Company.dto';
 
-export async function signInWithEmailAndPasswordRequestBodyValidation (req: Request, res: Response, next: NextFunction) {
+export async function createCompanyRequestBodyValidation (req: Request, res: Response, next: NextFunction) {
   try {
     if (!req.body) return res.status(400).json({
       message: 'MISSING_REQUEST_BODY'
     })
 
-    const payload = new SignInWithEmailAndPAsswordDTO()
+    const payload = new CreateCompanyDTO()
 
-    const body = req.body as SignInWithEmailAndPAsswordDTO
+    const body = req.body as CreateCompanyDTO
 
     Object.assign(payload, {
-      email: body.email,
-      password: body.password,
+      name: body.name,
+      cnpj: body.cnpj,
+      description: body.description,
+      site: body.site,
+      type: body.type,
     })
 
     await validateOrReject(payload)

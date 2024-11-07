@@ -18,9 +18,11 @@ export async function jwtMiddleware (req: Request<any, any, JWTPayload>, res: Re
 
     next()
   } catch (error: any) {
-    console.log(error)
+    req.log.error(error)
+
     if (error instanceof JsonWebTokenError) {
       req['user'] = undefined
+      res.clearCookie('auth')
 
       return res.sendStatus(401)
     } 

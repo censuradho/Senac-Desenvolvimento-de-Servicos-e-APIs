@@ -1,4 +1,6 @@
-enum EmployerType {
+import { Company } from "@prisma/client";
+
+export enum CompanyType {
   COMPANY_PUBLIC = 'COMPANY_PUBLIC',
   COMPANY_PRIVATE = 'COMPANY_PRIVATE',
   CONTRACT = 'CONTRACT',
@@ -14,6 +16,4 @@ enum EmployerType {
   OTHER = 'OTHER', // Autônomo
 }
 
-export class EmployerEntity {
-
-}
+export type CompanyEntity = Company
