@@ -1,4 +1,5 @@
 import { UserEntity } from '@/domain/entities/User.entity';
+import { EmployerModel } from './Employer.model';
 
 type UserModelSchema = Pick<UserEntity,
   'email'
@@ -16,22 +17,28 @@ export class UserModel implements UserModelSchema {
   role: string;
 
   constructor (data: UserModelSchema) {
-    Object.assign(this, {
-      email: data.email,
-      firstName: data.firstName,
-      id: data.id,
-      lastName: data.lastName,
-      role: data.role,
-    })
+      this.email = data.email
+      this.firstName = data.firstName
+      this.id = data.id
+      this.lastName = data.lastName
+      this.role = data.role
   }
+}
 
-  static entityToModel (entity: UserEntity): UserModelSchema {
-    return {
-      email: entity.email,
-      firstName: entity.firstName,
-      id: entity.id,
-      lastName: entity.lastName,
-      role: entity.role,
-    }
+export class UserEmployerModel implements UserModel {
+  email: string;
+  firstName: string;
+  id: string;
+  lastName: string;
+  role: string;
+  employer?: EmployerModel
+
+  constructor (data: UserEmployerModel) {
+    this.email = data.email
+    this.firstName = data.firstName
+    this.id = data.id
+    this.lastName = data.lastName
+    this.role = data.role
+    this.employer = data.employer
   }
 }

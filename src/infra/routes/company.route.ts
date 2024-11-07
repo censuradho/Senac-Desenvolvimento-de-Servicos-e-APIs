@@ -4,7 +4,6 @@ import { Router } from "express";
 import { CompanyController } from "../controllers/Company.controller";
 import { jwtMiddleware } from "@/domain/middleware/auth.middleware";
 import { createCompanyRequestBodyValidation } from "@/domain/middleware/company.validations";
-import { checkCompanyUserRole } from "@/domain/middleware/user.validations";
 
 const companyRoute = Router()
 

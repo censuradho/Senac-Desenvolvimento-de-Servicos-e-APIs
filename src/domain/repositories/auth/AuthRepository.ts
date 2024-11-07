@@ -5,20 +5,21 @@ import { CreateUserDTO } from '@/domain/dto/User.dto';
 import { UserEntity } from '@/domain/entities/User.entity';
 import { HttpException } from '@/domain/models/HttpException';
 import { JWTPayloadEmployer } from '@/domain/models/JWTPayload';
-import { UserModel } from '@/domain/models/UserModel';
+import { UserEmployerModel, UserModel } from '@/domain/models/UserModel';
 import { UserRepository } from '@/domain/repositories/user/UserRepository';
 import { UserRole } from '@/domain/dto/User.dto';
-import { CompanyUserRepository } from '@/domain/repositories/companyUser/CompanyUserRepository';
+import { EmployerRepository } from '@/domain/repositories/Employer/EmployerRepository';
 
 import { ERRORS } from '@/shared/errors';
 import { Jwt } from '@/shared/jwt';
 
 import { IAuthRepository } from './IAuthRepository';
+import { EmployerModel } from '@/domain/models/Employer.model';
 
 export class AuthRepository implements IAuthRepository {
   constructor (
     private userRepository: UserRepository,
-    private companyUserRepository: CompanyUserRepository
+    private employerRepository: EmployerRepository
   ) {}
 
   private async signInWithEmailAndPassword (payload: SignInWithEmailAndPAsswordDTO) {
@@ -40,7 +41,7 @@ export class AuthRepository implements IAuthRepository {
   }
 
   async generateJWTEmployer (user: UserEntity) {
-    const companyUser = await this.companyUserRepository.findByUserId(user.id)
+    const companyUser = await this.employerRepository.findByUserId(user.id)
 
     const jwtPayload = new JWTPayloadEmployer(
       user.id,
@@ -59,11 +60,26 @@ export class AuthRepository implements IAuthRepository {
     await this.userRepository.create(role, payload)
   }
 
-  async me (id: string) {
-    const user=  await this.userRepository.findById(id)
+  async me (user_id: string) {
+    const user=  await this.userRepository.findById(user_id)
 
     if (!user) return null
 
     return new UserModel(user)
+  }
+
+  async meEmployer (user_id: string) {
+    const user = await this.me(user_id)
+
+    if (!user) return null
+
+    const employerEntity = await this.employerRepository.findByUserId(user_id)
+
+    return new UserEmployerModel({
+      ...user,
+      ...(employerEntity && ({
+        employer: new EmployerModel(employerEntity)
+      }))
+    })
   }
 }

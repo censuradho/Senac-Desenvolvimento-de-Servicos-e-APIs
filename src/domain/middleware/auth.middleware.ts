@@ -31,7 +31,7 @@ export async function jwtMiddleware (req: Request<any, any, JWTPayload>, res: Re
   }
 }
 
-export async function jwtMiddlewareCompanyUser (req: Request<any, any, JWTPayload>, res: Response, next: NextFunction) {
+export async function jwtMiddlewareEmployer (req: Request<any, any, JWTPayload>, res: Response, next: NextFunction) {
   try {
     const token = req.cookies?.auth
 

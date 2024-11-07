@@ -1,13 +1,13 @@
 import { PrismaClient } from "@prisma/client";
-import { ICompanyUserRepository } from "./ICompanyUserRepository";
+import { IEmployerRepository } from "./IEmployerRepository";
 
-export class CompanyUserRepository implements ICompanyUserRepository {
+export class EmployerRepository implements IEmployerRepository {
   constructor (
     private prisma: PrismaClient
   ) {}
 
   findByUserId (user_id: string) {
-    return this.prisma.companyUser.findFirst({
+    return this.prisma.employer.findFirst({
       where: {
         user_id
       }
