@@ -1,3 +1,4 @@
+import { UserRole } from './../../dto/User.dto';
 import { UserRepository } from '@/domain/repositories/user/UserRepository';
 import { IAuthRepository } from './IAuthRepository';
 import { CreateUserDTO } from '@/domain/dto/User.dto';
@@ -14,8 +15,8 @@ export class AuthRepository implements IAuthRepository {
     private userRepository: UserRepository
   ) {}
 
-  async signUpWithEmailAndPassword (payload: CreateUserDTO) {
-    await this.userRepository.create(payload)
+  async signUpWithEmailAndPassword (role: UserRole, payload: CreateUserDTO) {
+    await this.userRepository.create(role, payload)
   }
 
   async signInWithEmailAndPassword (payload: SignInWithEmailAndPAsswordDTO) {

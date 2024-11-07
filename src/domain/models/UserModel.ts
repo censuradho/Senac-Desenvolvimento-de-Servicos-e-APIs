@@ -5,6 +5,7 @@ type UserModelSchema = Pick<UserEntity,
   | 'firstName'
   | 'id'
   | 'lastName'
+  | 'role'
 >
 
 export class UserModel implements UserModelSchema {
@@ -12,6 +13,7 @@ export class UserModel implements UserModelSchema {
   firstName: string;
   id: string;
   lastName: string;
+  role: string;
 
   constructor (data: UserModelSchema) {
     Object.assign(this, {
@@ -19,6 +21,7 @@ export class UserModel implements UserModelSchema {
       firstName: data.firstName,
       id: data.id,
       lastName: data.lastName,
+      role: data.role,
     })
   }
 
@@ -28,6 +31,7 @@ export class UserModel implements UserModelSchema {
       firstName: entity.firstName,
       id: entity.id,
       lastName: entity.lastName,
+      role: entity.role,
     }
   }
 }

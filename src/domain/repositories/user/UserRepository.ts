@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import { randomUUID } from 'node:crypto';
 
-import { CreateUserDTO } from '@/domain/dto/User.dto';
+import { CreateUserDTO, UserRole } from '@/domain/dto/User.dto';
 import { UserEntity } from '@/domain/entities/User.entity';
 import { HttpException } from '@/domain/models/HttpException';
 import { PrismaClient } from '@prisma/client';
@@ -29,7 +29,7 @@ export class UserRepository implements IUserRepository {
   }
 
 
-  async create (payload: CreateUserDTO) {
+  async create (role: UserRole, payload: CreateUserDTO) {
     const userAlreadyExist = await this.findByEmail(payload.email)
 
     const { password, ...otherPayload } = payload
@@ -44,6 +44,7 @@ export class UserRepository implements IUserRepository {
         id,
         ...otherPayload,
         password: hashPassword,
+        role
       }
     })
   }

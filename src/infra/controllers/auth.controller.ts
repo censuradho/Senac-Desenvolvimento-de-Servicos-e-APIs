@@ -1,3 +1,4 @@
+import { UserRole } from './../../domain/dto/User.dto';
 import { Request, Response } from 'express';
 import { addDays } from 'date-fns'
 
@@ -9,9 +10,24 @@ import { ERRORS } from '@/shared/errors';
 export class AuthController {
   constructor (private authRepository: AuthRepository) {}
 
-  async signUpWithEmailAndPAssword (req: Request, res: Response) {
+  async signUpWithEmailAndPAsswordCandidate (req: Request, res: Response) {
     try {
-      await this.authRepository.signUpWithEmailAndPassword(req.body)
+      await this.authRepository.signUpWithEmailAndPassword(UserRole.CANDIDATE, req.body)
+
+      return res.sendStatus(201)
+
+    } catch (error: any) {
+      if (error instanceof HttpException) {
+        return res.status(error.status).json({ message: error.message })
+      }
+
+      return res.sendStatus(500)    
+    }
+  }
+
+  async signUpWithEmailAndPAsswordEmployer (req: Request, res: Response) {
+    try {
+      await this.authRepository.signUpWithEmailAndPassword(UserRole.EMPLOYER, req.body)
 
       return res.sendStatus(201)
 

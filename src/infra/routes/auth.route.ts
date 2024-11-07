@@ -30,7 +30,13 @@ authRoute.get(
 authRoute.post(
   '/auth/register', 
   createUserValidation, 
-  controller.signUpWithEmailAndPAssword.bind(controller)
+  controller.signUpWithEmailAndPAsswordCandidate.bind(controller)
+)
+
+authRoute.post(
+  '/auth/register/employer', 
+  createUserValidation, 
+  controller.signUpWithEmailAndPAsswordEmployer.bind(controller)
 )
 
 
