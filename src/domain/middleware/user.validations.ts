@@ -1,7 +1,9 @@
  
 import { NextFunction, Request, Response } from 'express'
-import { CreateUserDTO } from '../dto/User.dto'
+import { CreateUserDTO, UserRole } from '../dto/User.dto'
 import { validateOrReject } from 'class-validator'
+import { JWTPayload } from '../models/JWTPayload'
+import { ERRORS } from '@/shared/errors'
 
 export async function createUserValidation (req: Request, res: Response, next: NextFunction) {
   try {
@@ -30,5 +32,18 @@ export async function createUserValidation (req: Request, res: Response, next: N
       message: Object.values(error[0].constraints)[0]
     })
   }
+}
 
+
+export async function checkCompanyUserRole (req: Request, res: Response, next: NextFunction) {
+  const user = req.user
+
+  if (user?.userRole !== UserRole.CANDIDATE) 
+      return res
+        .status(401)
+        .json({
+          message: ERRORS.USER.NOT_ALLOW
+        })
+
+  next()
 }

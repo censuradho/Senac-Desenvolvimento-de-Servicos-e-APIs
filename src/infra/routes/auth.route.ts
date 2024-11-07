@@ -8,29 +8,30 @@ import { UserRepository } from '@/domain/repositories/user/UserRepository';
 
 import { AuthController } from '@/infra/controllers/auth.controller';
 import { prisma } from '@/shared/PrismaClient';
+import { CompanyUserRepository } from '@/domain/repositories/companyUser/CompanyUserRepository';
 
 const authRoute = Router()
 
 const userRepository = new UserRepository(prisma)
-const repository = new AuthRepository(userRepository)
+const companyUserRepository = new CompanyUserRepository(prisma)
+
+const repository = new AuthRepository(
+  userRepository, 
+  companyUserRepository
+)
+
 const controller = new AuthController(repository)
 
 authRoute.post(
-  '/auth/login', 
+  '/auth/login/employer', 
   signInWithEmailAndPasswordRequestBodyValidation, 
-  controller.signInWithEmailAndPassword.bind(controller)
+  controller.signInWithEmailAndPasswordEmployer.bind(controller)
 )
 
 authRoute.get(
-  '/auth/me',
+  '/auth/me/employer',
   jwtMiddleware, 
   controller.me.bind(controller)
-)
-
-authRoute.post(
-  '/auth/register', 
-  createUserValidation, 
-  controller.signUpWithEmailAndPAsswordCandidate.bind(controller)
 )
 
 authRoute.post(

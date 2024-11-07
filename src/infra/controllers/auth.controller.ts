@@ -43,10 +43,10 @@ export class AuthController {
     }
   }
 
-  async signInWithEmailAndPassword (req: Request, res: Response) {
+  async signInWithEmailAndPasswordEmployer (req: Request, res: Response) {
     try {
 
-      const token = await this.authRepository.signInWithEmailAndPassword(req.body)
+      const token = await this.authRepository.signInWithEmailAndPasswordEmployer(req.body)
 
       res.cookie('auth', token, {
         secure: process.env.NODE_ENV !== 'development',
@@ -70,6 +70,8 @@ export class AuthController {
 
   async signOut (req: Request, res: Response) {
     res.clearCookie('auth')
+    req['company'] = undefined
+    req['user'] = undefined
     return res.sendStatus(200)
   }
 

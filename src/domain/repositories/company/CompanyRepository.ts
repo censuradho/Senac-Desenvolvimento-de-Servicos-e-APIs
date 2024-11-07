@@ -7,12 +7,13 @@ import { HttpException } from "@/domain/models/HttpException";
 import { CompanyUserAccessLevel } from "@/domain/entities/CompanyUser.entity";
 
 import { ICompanyRepository } from "./ICompanyRepository";
+import { ERRORS } from "@/shared/errors";
 export class CompanyRepository implements ICompanyRepository {
   constructor (
     private prisma: PrismaClient
   ) {}
 
-
+  
   async create (user_id: string, payload: CreateCompanyDTO) {
     const companyExist = await this.prisma.company.findFirst({
       where: {
@@ -35,5 +36,19 @@ export class CompanyRepository implements ICompanyRepository {
         }
       }
     })
+  }
+
+  async update (
+    user_id: string,
+    payload: CreateCompanyDTO
+  ) {
+
+    const companyExist= await this.prisma.company.findFirst({
+      where: {
+         
+      }
+    })
+
+    if (companyExist) throw new HttpException(400, ERRORS.COMPANY.CNPJ_ALREADY_EXIST)
   }
 }
