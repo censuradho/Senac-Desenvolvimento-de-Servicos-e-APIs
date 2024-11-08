@@ -8,7 +8,7 @@ import { UserRepository } from '@/domain/repositories/user/UserRepository';
 
 import { AuthController } from '@/infra/controllers/auth.controller';
 import { prisma } from '@/shared/PrismaClient';
-import { EmployerRepository } from '@/domain/repositories/Employer/EmployerRepository';
+import { EmployerRepository } from '@/domain/repositories/employer/EmployerRepository';
 
 const authRoute = Router()
 

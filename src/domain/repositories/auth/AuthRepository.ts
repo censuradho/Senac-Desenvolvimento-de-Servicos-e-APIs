@@ -8,7 +8,7 @@ import { JWTPayloadEmployer } from '@/domain/models/JWTPayload';
 import { UserEmployerModel, UserModel } from '@/domain/models/UserModel';
 import { UserRepository } from '@/domain/repositories/user/UserRepository';
 import { UserRole } from '@/domain/dto/User.dto';
-import { EmployerRepository } from '@/domain/repositories/Employer/EmployerRepository';
+import { EmployerRepository } from '@/domain/repositories/employer/EmployerRepository';
 
 import { ERRORS } from '@/shared/errors';
 import { Jwt } from '@/shared/jwt';
