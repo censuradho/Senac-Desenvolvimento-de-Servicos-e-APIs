@@ -32,6 +32,7 @@ model Review {
   jobTitle String
   description String
   category String
+  jobLink String?
 
   candidate_id String
   candidate Candidate @relation(fields: [candidate_id], references: [id])

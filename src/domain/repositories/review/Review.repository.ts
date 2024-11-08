@@ -7,5 +7,7 @@ export class ReviewRepository implements IReviewRepository {
     private prisma: PrismaClient,
   ) {}
 
-  async create(candidate_id: string, payload: CreateReviewDTO) {}
+  async create(candidate_id: string, payload: CreateReviewDTO) {
+    
+  }
 }
