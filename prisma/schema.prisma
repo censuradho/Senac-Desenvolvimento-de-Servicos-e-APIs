@@ -28,12 +28,16 @@ model Review {
   id String @id
 
   nps Int
+
   jobTitle String
   description String
   category String
 
   candidate_id String
   candidate Candidate @relation(fields: [candidate_id], references: [id])
+  
+  company_id String
+  company Company @relation(fields: [company_id], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
@@ -62,7 +66,9 @@ model Company {
   type String @default("OTHER")
   description String?
 
+  reviews Review[]
   users Employer[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
 
