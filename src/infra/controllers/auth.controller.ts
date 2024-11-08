@@ -1,4 +1,4 @@
-import { UserRole } from './../../domain/dto/User.dto';
+import { UserRole } from '@/domain/dto/User.dto';
 import { Request, Response } from 'express';
 import { addDays } from 'date-fns'
 
@@ -10,6 +10,15 @@ import { JWTPayloadEmployer } from '@/domain/models/JWTPayload';
 
 export class AuthController {
   constructor (private authRepository: AuthRepository) {}
+
+  generateAuthCookie (cookie: string, res: Response) {
+    res.cookie('auth', cookie, {
+      secure: process.env.NODE_ENV !== 'development',
+      httpOnly: true,
+      sameSite: 'strict',
+      expires: addDays(new Date(), 2)
+    })
+  }
 
   async signUpWithEmailAndPAsswordCandidate (req: Request, res: Response) {
     try {
@@ -49,12 +58,27 @@ export class AuthController {
 
       const token = await this.authRepository.signInWithEmailAndPasswordEmployer(req.body)
 
-      res.cookie('auth', token, {
-        secure: process.env.NODE_ENV !== 'development',
-        httpOnly: true,
-        sameSite: 'strict',
-        expires: addDays(new Date(), 2)
-      })
+      this.generateAuthCookie(token, res)
+
+      res.sendStatus(200)
+
+    } catch (error: any) {
+      req.log.error(error)
+
+      if (error instanceof HttpException) {
+        return res.status(error.status).json({ message: error.message })
+      }
+
+      return res.sendStatus(500)    
+    }
+  }
+
+  async signInWithEmailAndPasswordCandidate (req: Request, res: Response) {
+    try {
+
+      const token = await this.authRepository.signInWithEmailAndPasswordCandidate(req.body)
+
+      this.generateAuthCookie(token, res)
 
       res.sendStatus(200)
 

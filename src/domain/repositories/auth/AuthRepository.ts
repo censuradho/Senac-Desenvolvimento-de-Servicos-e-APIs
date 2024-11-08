@@ -6,7 +6,7 @@ import { CreateUserDTO } from '@/domain/dto/User.dto';
 import { UserEntity } from '@/domain/entities/User.entity';
 import { HttpException } from '@/domain/models/HttpException';
 import { JWTPayloadCandidate, JWTPayloadEmployer } from '@/domain/models/JWTPayload';
-import { UserEmployerModel, UserModel } from '@/domain/models/UserModel';
+import { userCandidateModel, UserEmployerModel, UserModel } from '@/domain/models/UserModel';
 import { UserRepository } from '@/domain/repositories/user/UserRepository';
 import { UserRole } from '@/domain/dto/User.dto';
 import { EmployerRepository } from '@/domain/repositories/employer/EmployerRepository';
@@ -16,6 +16,7 @@ import { Jwt } from '@/shared/jwt';
 
 import { IAuthRepository } from './IAuthRepository';
 import { EmployerModel } from '@/domain/models/Employer.model';
+import { CandidateModel } from '@/domain/models/Candidate.model';
 
 export class AuthRepository implements IAuthRepository {
   constructor (
@@ -102,6 +103,21 @@ export class AuthRepository implements IAuthRepository {
       ...user,
       ...(employerEntity && ({
         employer: new EmployerModel(employerEntity)
+      }))
+    })
+  }
+
+  async meCandidate (user_id: string) {
+    const user = await this.me(user_id)
+
+    if (!user) return null
+
+    const entity = await this.candidateRepository.findByUserId(user_id)
+
+    return new userCandidateModel({
+      ...user,
+      ...(entity && ({
+        candidate: new CandidateModel(entity)
       }))
     })
   }

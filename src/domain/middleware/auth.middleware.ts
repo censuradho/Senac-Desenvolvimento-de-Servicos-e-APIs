@@ -1,8 +1,8 @@
+import { ERRORS } from '@/shared/errors';
 import { Jwt } from '@/shared/jwt';
 import { NextFunction, Request, Response } from 'express';
 import { JsonWebTokenError } from 'jsonwebtoken';
-import { JWTPayload, JWTPayloadEmployer } from '../models/JWTPayload';
-import { ERRORS } from '@/shared/errors';
+import { JWTPayload, JWTPayloadCandidate, JWTPayloadEmployer } from '../models/JWTPayload';
 
 export async function jwtMiddleware (req: Request<any, any, JWTPayload>, res: Response, next: NextFunction) {
   try {
@@ -12,7 +12,7 @@ export async function jwtMiddleware (req: Request<any, any, JWTPayload>, res: Re
       message: ERRORS.AUTH.PROVIDE_TOKEN
     })
 
-    const payload = Jwt.verifyAccessToken(token) as JWTPayload
+    const payload = Jwt.verifyAccessToken(token) as JWTPayloadCandidate
   
     req.user = payload
 

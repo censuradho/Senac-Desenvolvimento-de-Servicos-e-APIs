@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import { jwtMiddlewareEmployer } from '@/domain/middleware/auth.middleware';
+import { jwtMiddleware, jwtMiddlewareEmployer } from '@/domain/middleware/auth.middleware';
 import { signInWithEmailAndPasswordRequestBodyValidation } from '@/domain/middleware/auth.validations';
 import { createUserValidation } from '@/domain/middleware/user.validations';
 import { AuthRepository } from '@/domain/repositories/auth/AuthRepository';
@@ -43,6 +43,24 @@ authRoute.post(
   controller.signUpWithEmailAndPAsswordEmployer.bind(controller)
 )
 
+
+authRoute.post(
+  '/auth/register/candidate', 
+  createUserValidation, 
+  controller.signUpWithEmailAndPAsswordCandidate.bind(controller)
+)
+
+authRoute.get(
+  '/auth/me/candidate',
+  jwtMiddleware, 
+  controller.meEmployer.bind(controller)
+)
+
+authRoute.post(
+  '/auth/login/candidate', 
+  signInWithEmailAndPasswordRequestBodyValidation, 
+  controller.signInWithEmailAndPasswordCandidate.bind(controller)
+)
 
 authRoute.get(
   '/auth/sign-out', 
