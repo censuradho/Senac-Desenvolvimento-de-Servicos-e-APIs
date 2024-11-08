@@ -6,7 +6,7 @@ import { AuthRepository } from '@/domain/repositories/auth/AuthRepository';
 import { HttpException } from '@/domain/models/HttpException';
 
 import { ERRORS } from '@/shared/errors';
-import { JWTPayloadEmployer } from '@/domain/models/JWTPayload';
+import { JWTPayloadCandidate, JWTPayloadEmployer } from '@/domain/models/JWTPayload';
 
 export class AuthController {
   constructor (private authRepository: AuthRepository) {}
@@ -126,9 +126,31 @@ export class AuthController {
 
   async meEmployer (req: Request, res: Response) {
     try {
-      const jwtPayload = req.company as JWTPayloadEmployer
+      const jwtPayload = req?.company as JWTPayloadEmployer
 
-      const me = await this.authRepository.meEmployer(jwtPayload.user_id)
+      const me = await this.authRepository.meEmployer(jwtPayload?.user_id || '')
+  
+      if (!me) return res.status(401).json({
+        message: ERRORS.AUTH.PROVIDE_TOKEN
+      })
+  
+      return res.json(me)
+    } catch (error: any) {
+      req.log.error(error)
+
+      if (error instanceof HttpException) {
+        return res.status(error.status).json({ message: error.message })
+      }
+
+      return res.sendStatus(500)    
+    }
+  }
+
+  async meCandidate (req: Request, res: Response) {
+    try {
+      const jwtPayload = req?.user as JWTPayloadCandidate
+
+      const me = await this.authRepository.meCandidate(jwtPayload?.user_id || '')
   
       if (!me) return res.status(401).json({
         message: ERRORS.AUTH.PROVIDE_TOKEN

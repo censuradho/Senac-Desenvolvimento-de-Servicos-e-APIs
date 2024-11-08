@@ -53,7 +53,7 @@ authRoute.post(
 authRoute.get(
   '/auth/me/candidate',
   jwtMiddleware, 
-  controller.meEmployer.bind(controller)
+  controller.meCandidate.bind(controller)
 )
 
 authRoute.post(
