@@ -94,10 +94,15 @@ export class AuthController {
   }
 
   async signOut (req: Request, res: Response) {
-    res.clearCookie('auth')
-    req['company'] = undefined
-    req['user'] = undefined
-    return res.sendStatus(200)
+    try {
+      res.clearCookie('auth')
+      req['company'] = undefined
+      req['user'] = undefined
+      return res.sendStatus(200)
+    } catch (error) {
+      req.log.error(error)
+      return res.sendStatus(500)
+    }
   }
 
   async me (req: Request, res: Response) {
