@@ -1,10 +1,11 @@
+import { CandidateRepository } from './../candidate/Candidate.repository';
 import { compare } from 'bcrypt';
 
 import { SignInWithEmailAndPAsswordDTO } from '@/domain/dto/Auth.dto';
 import { CreateUserDTO } from '@/domain/dto/User.dto';
 import { UserEntity } from '@/domain/entities/User.entity';
 import { HttpException } from '@/domain/models/HttpException';
-import { JWTPayloadEmployer } from '@/domain/models/JWTPayload';
+import { JWTPayloadCandidate, JWTPayloadEmployer } from '@/domain/models/JWTPayload';
 import { UserEmployerModel, UserModel } from '@/domain/models/UserModel';
 import { UserRepository } from '@/domain/repositories/user/UserRepository';
 import { UserRole } from '@/domain/dto/User.dto';
@@ -19,7 +20,8 @@ import { EmployerModel } from '@/domain/models/Employer.model';
 export class AuthRepository implements IAuthRepository {
   constructor (
     private userRepository: UserRepository,
-    private employerRepository: EmployerRepository
+    private employerRepository: EmployerRepository,
+    private candidateRepository: CandidateRepository
   ) {}
 
   private async signInWithEmailAndPassword (payload: SignInWithEmailAndPAsswordDTO) {
@@ -37,22 +39,43 @@ export class AuthRepository implements IAuthRepository {
   async signInWithEmailAndPasswordEmployer (payload: SignInWithEmailAndPAsswordDTO) {
     const user = await this.signInWithEmailAndPassword(payload)
 
-    return this.generateJWTEmployer(user)
+    return await this.generateJWTEmployer(user)
+  }
+
+  async signInWithEmailAndPasswordCandidate (payload: SignInWithEmailAndPAsswordDTO) {
+    const user = await this.signInWithEmailAndPassword(payload)
+
+    return await this.generateJWTCandidate(user)
   }
 
   async generateJWTEmployer (user: UserEntity) {
-    const companyUser = await this.employerRepository.findByUserId(user.id)
+    const employer = await this.employerRepository.findByUserId(user.id)
 
     const jwtPayload = new JWTPayloadEmployer(
       user.id,
       user.role as UserRole,
-      companyUser?.company_id
+      employer?.company_id
     )
 
     const token = Jwt.generateAccessToken(
       jwtPayload
     )
 
+    return token
+  }
+
+  async generateJWTCandidate (user: UserEntity) {
+    const candidate = await this.candidateRepository.findByUserId(user.id)
+
+    const jwtPayload = new JWTPayloadCandidate(
+      user.id,
+      user.role as UserRole,
+      candidate?.id
+    )
+
+    const token = Jwt.generateAccessToken(
+      jwtPayload
+    )
     return token
   }
 

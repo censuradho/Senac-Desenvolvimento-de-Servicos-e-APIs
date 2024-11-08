@@ -1,23 +1,26 @@
 import { Router } from 'express';
 
-import { jwtMiddleware, jwtMiddlewareEmployer } from '@/domain/middleware/auth.middleware';
+import { jwtMiddlewareEmployer } from '@/domain/middleware/auth.middleware';
 import { signInWithEmailAndPasswordRequestBodyValidation } from '@/domain/middleware/auth.validations';
 import { createUserValidation } from '@/domain/middleware/user.validations';
 import { AuthRepository } from '@/domain/repositories/auth/AuthRepository';
 import { UserRepository } from '@/domain/repositories/user/UserRepository';
 
+import { CandidateRepository } from '@/domain/repositories/candidate/Candidate.repository';
+import { EmployerRepository } from '@/domain/repositories/employer/EmployerRepository';
 import { AuthController } from '@/infra/controllers/auth.controller';
 import { prisma } from '@/shared/PrismaClient';
-import { EmployerRepository } from '@/domain/repositories/employer/EmployerRepository';
 
 const authRoute = Router()
 
 const userRepository = new UserRepository(prisma)
 const employerRepository = new EmployerRepository(prisma)
+const candidateRepository = new CandidateRepository(prisma)
 
 const repository = new AuthRepository(
   userRepository, 
-  employerRepository
+  employerRepository,
+  candidateRepository,
 )
 
 const controller = new AuthController(repository)
@@ -49,3 +52,4 @@ authRoute.get(
 export {
   authRoute
 };
+
