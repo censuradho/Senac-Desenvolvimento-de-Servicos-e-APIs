@@ -8,6 +8,11 @@ export class ReviewRepository implements IReviewRepository {
   ) {}
 
   async create(candidate_id: string, payload: CreateReviewDTO) {
-    
+    await this.prisma.review.create({
+      data: {
+        category: payload.category,
+        description: payload?.description
+      }
+    })
   }
 }

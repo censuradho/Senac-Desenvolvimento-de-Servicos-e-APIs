@@ -30,7 +30,7 @@ model Review {
   nps Int
 
   jobTitle String
-  description String
+  description String?
   category String
   jobLink String?
 
