@@ -24,7 +24,6 @@ model User {
   @@map("users")
 }
 
-
 model Review {
   id String @id
 
