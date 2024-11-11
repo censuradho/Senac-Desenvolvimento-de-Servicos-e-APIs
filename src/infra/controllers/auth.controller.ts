@@ -7,6 +7,7 @@ import { HttpException } from '@/domain/models/HttpException';
 
 import { ERRORS } from '@/shared/errors';
 import { JWTPayloadCandidate, JWTPayloadEmployer } from '@/domain/models/JWTPayload';
+import { signOutMethod } from '@/shared/utils/signOut';
 
 export class AuthController {
   constructor (private authRepository: AuthRepository) {}
@@ -95,9 +96,7 @@ export class AuthController {
 
   async signOut (req: Request, res: Response) {
     try {
-      res.clearCookie('auth')
-      req['company'] = undefined
-      req['user'] = undefined
+      signOutMethod(req, res)
       return res.sendStatus(200)
     } catch (error) {
       req.log.error(error)

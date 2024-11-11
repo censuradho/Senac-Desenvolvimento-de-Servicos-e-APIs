@@ -14,6 +14,9 @@ export class ReviewController {
       const user = req.user as JWTPayloadCandidate
 
       await this.reviewRepository.create(user.candidateId!!, req.body)
+
+      return res.sendStatus(201)
+      
     } catch (error) {
       req.log.error(error)
 
