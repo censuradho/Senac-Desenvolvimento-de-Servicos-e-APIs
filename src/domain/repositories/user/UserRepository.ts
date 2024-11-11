@@ -29,7 +29,7 @@ export class UserRepository implements IUserRepository {
   }
 
 
-  async create (role: UserRole, payload: CreateUserDTO) {
+  async create (role: UserRole, payload: CreateUserDTO): Promise<string> {
     const userAlreadyExist = await this.findByEmail(payload.email)
 
     const { password, ...otherPayload } = payload
@@ -47,5 +47,7 @@ export class UserRepository implements IUserRepository {
         role
       }
     })
+
+    return id
   }
 }

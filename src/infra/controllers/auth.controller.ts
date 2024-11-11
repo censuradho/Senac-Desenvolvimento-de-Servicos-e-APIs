@@ -22,7 +22,7 @@ export class AuthController {
 
   async signUpWithEmailAndPAsswordCandidate (req: Request, res: Response) {
     try {
-      await this.authRepository.signUpWithEmailAndPassword(UserRole.CANDIDATE, req.body)
+      await this.authRepository.signUpWithEmailAndPasswordCandidate(req.body)
 
       return res.sendStatus(201)
 

@@ -1,9 +1,25 @@
-import { IsOptional, IsString, IsUrl, IsUUID, MaxLength } from "class-validator";
+import { 
+  IsOptional, 
+  IsString, 
+  IsUrl,
+  IsUUID, 
+  MaxLength, 
+  IsNumber, 
+  IsPositive, 
+  Min, 
+  Max
+} from "class-validator";
 
 export class CreateReviewDTO {
   @IsString()
   @MaxLength(100)
   jobTitle: string
+
+  @IsNumber()
+  @Min(1)
+  @Max(10)
+  @IsPositive()
+  nps: number
 
   @IsOptional()
   @IsUrl()

@@ -84,6 +84,11 @@ export class AuthRepository implements IAuthRepository {
     await this.userRepository.create(role, payload)
   }
 
+  async signUpWithEmailAndPasswordCandidate (payload: CreateUserDTO) {
+    const userId = await this.userRepository.create(UserRole.CANDIDATE, payload)
+    await this.candidateRepository.create(userId)
+  }
+
   async me (user_id: string) {
     const user=  await this.userRepository.findById(user_id)
 

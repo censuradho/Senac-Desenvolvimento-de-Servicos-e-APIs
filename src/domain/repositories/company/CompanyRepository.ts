@@ -7,7 +7,6 @@ import { HttpException } from "@/domain/models/HttpException";
 import { EmployerAccessLevel } from "@/domain/entities/Employer.entity";
 
 import { ICompanyRepository } from "./ICompanyRepository";
-import { ERRORS } from "@/shared/errors";
 export class CompanyRepository implements ICompanyRepository {
   constructor (
     private prisma: PrismaClient
@@ -33,6 +32,14 @@ export class CompanyRepository implements ICompanyRepository {
             access_level: EmployerAccessLevel.ADMIN
           }
         }
+      }
+    })
+  }
+
+  async findById (id: string) {
+    return this.prisma.company.findFirst({
+      where: {
+        id
       }
     })
   }
