@@ -35,6 +35,12 @@ reviewRoute.post(
   controller.create.bind(controller)
 )
 
+reviewRoute.get(
+  '/review',
+  jwtMiddleware,
+  controller.findMyReviews.bind(controller)
+)
+
 export {
   reviewRoute 
 }

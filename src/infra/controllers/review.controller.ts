@@ -24,7 +24,15 @@ export class ReviewController {
         return res.status(error.status).json({ message: error.message })
       }
 
-      return res.sendStatus(500)    
+      return res.sendStatus(500)
     }
+  }
+
+  async findMyReviews (req: Request, res: Response) {
+    const user = req.user as JWTPayloadCandidate
+
+    const reviews = await this.reviewRepository.findByCandidateId(user.candidateId!!)
+
+    return res.json(reviews || [])
   }
 }

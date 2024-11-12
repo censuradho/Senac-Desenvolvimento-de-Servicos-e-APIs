@@ -1,10 +1,11 @@
-import { CompanyRepository } from '@/domain/repositories/company/CompanyRepository';
 import { PrismaClient } from "@prisma/client";
-import { IReviewRepository } from "./IReview.repository";
-import { CreateReviewDTO } from "@/domain/dto/Review.dto";
 import { randomUUID } from "node:crypto";
+
+import { CreateReviewDTO } from "@/domain/dto/Review.dto";
 import { HttpException } from '@/domain/models/HttpException';
+import { CompanyRepository } from '@/domain/repositories/company/CompanyRepository';
 import { ERRORS } from '@/shared/errors';
+import { IReviewRepository } from "./IReview.repository";
 
 export class ReviewRepository implements IReviewRepository {
   constructor (
@@ -27,6 +28,14 @@ export class ReviewRepository implements IReviewRepository {
         jobLink: payload.jobLink,
         candidate_id,
         company_id: payload.company_id
+      }
+    })
+  }
+
+  async findByCandidateId (id: string) {
+    return this.prisma.review.findMany({
+      where: {
+        candidate_id: id
       }
     })
   }
