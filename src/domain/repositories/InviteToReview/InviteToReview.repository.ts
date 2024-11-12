@@ -6,6 +6,8 @@ import { PrismaClient } from "@prisma/client";
 import { randomUUID } from "crypto";
 import { IInviteToReviewRepository } from "./IInviteToReview.repository";
 
+import { addDays, isBefore } from 'date-fns'
+
 export class InviteToReviewRepository implements IInviteToReviewRepository {
   constructor (
     private prisma: PrismaClient
@@ -48,5 +50,11 @@ export class InviteToReviewRepository implements IInviteToReviewRepository {
     const invite = await this.findById(id)
 
     if (!invite) throw new HttpException(400, ERRORS.INVITE.NOT_FOUND)
+
+    const dateLimit = addDays(invite.createdAt, invite.validDays)
+
+    const isValidDate = isBefore(new Date(), dateLimit)
+
+    if (!isValidDate) throw new HttpException(400, ERRORS.INVITE.EXPIRED)
   }
 }

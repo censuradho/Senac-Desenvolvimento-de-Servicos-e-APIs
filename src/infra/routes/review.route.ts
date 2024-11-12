@@ -10,6 +10,7 @@ import { jwtMiddleware } from "@/domain/middleware/auth.middleware";
 import { CompanyRepository } from "@/domain/repositories/company/CompanyRepository";
 import { EmployerRepository } from "@/domain/repositories/employer/EmployerRepository";
 import { FileUploadService } from "@/domain/service/fileUpload/FileUpload.service";
+import { InviteToReviewRepository } from "@/domain/repositories/InviteToReview/InviteToReview.repository";
 
 const reviewRoute = Router()
 
@@ -20,10 +21,12 @@ const companyRepository = new CompanyRepository(
   employerRepository, 
   fileUploadService
 )
+const inviteToReviewRepository = new InviteToReviewRepository(prisma)
 
 const repository = new ReviewRepository(
   prisma, 
-  companyRepository
+  companyRepository,
+  inviteToReviewRepository
 )
 
 const controller = new ReviewController(repository)
