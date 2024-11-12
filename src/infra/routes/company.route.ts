@@ -2,8 +2,9 @@ import { CompanyRepository } from "@/domain/repositories/company/CompanyReposito
 import { prisma } from "@/shared/PrismaClient";
 import { Router } from "express";
 import { CompanyController } from "../controllers/Company.controller";
-import { jwtMiddleware } from "@/domain/middleware/auth.middleware";
+import { jwtMiddleware, jwtMiddlewareEmployer } from "@/domain/middleware/auth.middleware";
 import { createCompanyRequestBodyValidation } from "@/domain/middleware/company.validations";
+import { uploadSingleFileMiddleware } from "@/domain/middleware/fileUpload.middleware";
 
 const companyRoute = Router()
 
@@ -12,16 +13,23 @@ const controller = new CompanyController(repository)
 
 companyRoute.post(
   '/company',
-  jwtMiddleware,
+  jwtMiddlewareEmployer,
   createCompanyRequestBodyValidation,
   controller.create.bind(controller)
 )
 
 companyRoute.put(
   '/company',
-  jwtMiddleware,
+  jwtMiddlewareEmployer,
   createCompanyRequestBodyValidation,
   controller.create.bind(controller)
+)
+
+companyRoute.put(
+  '/company/:id/avatar',
+  jwtMiddlewareEmployer,
+  uploadSingleFileMiddleware,
+  controller.uploadAvatar.bind(controller)
 )
 
 export {

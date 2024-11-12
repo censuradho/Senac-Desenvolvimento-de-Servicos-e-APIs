@@ -2,7 +2,7 @@ import { HttpException } from '@/domain/models/HttpException'
 import multer, { Multer } from 'multer'
 import path from 'path'
 
-export class FileUploadRepository {
+export class FileUploadService {
   upload: Multer
 
   constructor () {

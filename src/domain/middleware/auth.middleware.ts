@@ -23,7 +23,7 @@ export async function jwtMiddleware (req: Request<any, any, JWTPayload>, res: Re
       return res
       .status(401)
       .json({
-        message: ERRORS.AUTH.NOT_AUTHORIZED
+        message: ERRORS.AUTH.USER_ROLE_NOT_AUTHORIZED
       })
     } 
 
@@ -58,10 +58,10 @@ export async function jwtMiddlewareEmployer (req: Request<any, any, JWTPayload>,
       signOutMethod(req, res)
 
       return res
-      .status(401)
-      .json({
-        message: ERRORS.AUTH.NOT_AUTHORIZED
-      })
+        .status(401)
+        .json({
+          message: ERRORS.AUTH.USER_ROLE_NOT_AUTHORIZED
+        })
     } 
 
     req.company = payload

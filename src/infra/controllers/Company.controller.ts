@@ -1,5 +1,6 @@
 import { HttpException } from "@/domain/models/HttpException";
 import { CompanyRepository } from "@/domain/repositories/company/CompanyRepository";
+import { ERRORS } from "@/shared/errors";
 import { Request, Response } from "express";
 
 export class CompanyController {
@@ -9,7 +10,7 @@ export class CompanyController {
 
   async create(req: Request, res: Response) {
     try {
-      await this.repository.create(req.user?.user_id as string, req.body)
+      await this.repository.create(req.company?.user_id as string, req.body)
 
       return res.sendStatus(201)
     } catch (error: any) {
@@ -20,5 +21,18 @@ export class CompanyController {
 
       return res.sendStatus(500)    
     }
+  }
+
+  async uploadAvatar (req: Request, res: Response) {
+    if (!req.file) return res
+      .status(400)
+      .json({
+        message: ERRORS.FILE.FILE_IS_REQUIRED
+      })
+
+    const companyId = req.params.id
+
+    await this.repository.avatarUpload(companyId, req.file)
+    return res.sendStatus(200)
   }
 }
