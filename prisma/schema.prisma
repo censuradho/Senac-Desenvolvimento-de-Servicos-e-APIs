@@ -8,6 +8,22 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model InviteToReview {
+  id String @id
+
+  validDays Int
+
+  answerd Boolean @default(false)
+
+  createdAt DateTime @default(now())
+
+  review Review?
+
+  employer_id String
+  employer Employer @relation(fields: [employer_id], references: [id])
+
+  @@map("invitesToReview")
+}
 
 model User {
   id String @id
@@ -26,6 +42,9 @@ model User {
 
 model Review {
   id String @id
+
+  invite_id String @unique
+  invite InviteToReview @relation(fields: [invite_id], references: [id])
 
   nps Int
 
@@ -87,6 +106,8 @@ model Employer {
   company_id  String
 
   company Company @relation(fields: [company_id], references: [id])
+
+  invites InviteToReview[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())

@@ -1,4 +1,14 @@
 -- CreateTable
+CREATE TABLE "invitesToReview" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "validDays" INTEGER NOT NULL,
+    "answerd" BOOLEAN NOT NULL DEFAULT false,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "employer_id" TEXT NOT NULL,
+    CONSTRAINT "invitesToReview_employer_id_fkey" FOREIGN KEY ("employer_id") REFERENCES "employers" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+-- CreateTable
 CREATE TABLE "users" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "firstName" TEXT NOT NULL DEFAULT 'Unknow',
@@ -13,6 +23,7 @@ CREATE TABLE "users" (
 -- CreateTable
 CREATE TABLE "reviews" (
     "id" TEXT NOT NULL PRIMARY KEY,
+    "invite_id" TEXT NOT NULL,
     "nps" INTEGER NOT NULL,
     "jobTitle" TEXT NOT NULL,
     "description" TEXT,
@@ -22,6 +33,7 @@ CREATE TABLE "reviews" (
     "company_id" TEXT NOT NULL,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "reviews_invite_id_fkey" FOREIGN KEY ("invite_id") REFERENCES "invitesToReview" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
     CONSTRAINT "reviews_candidate_id_fkey" FOREIGN KEY ("candidate_id") REFERENCES "candidates" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
     CONSTRAINT "reviews_company_id_fkey" FOREIGN KEY ("company_id") REFERENCES "companies" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
@@ -57,6 +69,9 @@ CREATE TABLE "employers" (
     "updatedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT "employers_company_id_fkey" FOREIGN KEY ("company_id") REFERENCES "companies" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "reviews_invite_id_key" ON "reviews"("invite_id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "companies_cnpj_key" ON "companies"("cnpj");
