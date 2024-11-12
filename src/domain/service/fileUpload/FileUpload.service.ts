@@ -3,6 +3,7 @@ import multer, { Multer } from 'multer'
 import path from 'path'
 import fs from 'fs'
 import { promisify } from 'util'
+
 export class FileUploadService {
   upload: Multer
 

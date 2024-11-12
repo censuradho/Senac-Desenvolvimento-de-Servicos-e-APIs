@@ -33,10 +33,10 @@ model Review {
   description String?
   category String
   jobLink String?
-  
+
   candidate_id String
   candidate Candidate @relation(fields: [candidate_id], references: [id])
-  
+
   company_id String
   company Company @relation(fields: [company_id], references: [id])
 

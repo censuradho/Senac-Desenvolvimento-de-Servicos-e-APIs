@@ -5,9 +5,11 @@ import pretty from 'pino-pretty'
 export const logger = pino(
   pretty({
     colorize: true,
+    colorizeObjects: true
   })
 )
 
 export const loggerHttp = pinoHttp({
-  logger
+  logger,
+  level: 'warn'
 })
