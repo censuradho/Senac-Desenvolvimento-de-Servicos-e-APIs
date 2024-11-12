@@ -43,4 +43,10 @@ export class InviteToReviewRepository implements IInviteToReviewRepository {
       }
     })
   }
+
+  async validate (id: string) {
+    const invite = await this.findById(id)
+
+    if (!invite) throw new HttpException(400, ERRORS.INVITE.NOT_FOUND)
+  }
 }

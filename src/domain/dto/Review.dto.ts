@@ -36,4 +36,7 @@ export class CreateReviewDTO {
 
   @IsUUID()
   company_id: string
+
+  @IsString()
+  invite_id: string
 }
