@@ -10,7 +10,7 @@ export default defineConfig({
       reporter: ['text', 'json', 'html'],
     },
     include: ['**/*/*.spec.ts'],
-    setupFiles: ['./src/tests/setup.ts']
+    setupFiles: ['./src/__test__/setup.ts']
   },
   resolve: {
     alias: [{ find: '@', replacement: resolve(__dirname, 'src') }]

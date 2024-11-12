@@ -110,10 +110,10 @@ devDependencies:
     specifier: ^8.1.0
     version: 8.13.0(eslint@9.14.0)(typescript@5.6.3)
   vitest:
-    specifier: ^2.0.5
+    specifier: ^2.1.4
     version: 2.1.4(@types/node@22.9.0)
   vitest-mock-extended:
-    specifier: ^2.0.0
+    specifier: ^2.0.2
     version: 2.0.2(typescript@5.6.3)(vitest@2.1.4)
 
 packages:
