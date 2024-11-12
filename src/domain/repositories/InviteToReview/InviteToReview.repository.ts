@@ -31,18 +31,19 @@ export class InviteToReviewRepository implements IInviteToReviewRepository {
     })
   }
 
-  async markAsAnswered (id: string) {
-    const invite = await this.findById(id)
-
-    if (!invite) throw new HttpException(404, ERRORS.INVITE.NOT_FOUND)
-
+  async markAsAnswered (id: string, reviewId: string) {
     await this.prisma.inviteToReview.update({
       where: {
         id
       },
       data: {
         answered: true,
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        review: {
+          connect: {
+            id: reviewId
+          }
+        }
       }
     })
   }
@@ -57,5 +58,7 @@ export class InviteToReviewRepository implements IInviteToReviewRepository {
     const isValidDate = isBefore(new Date(), dateLimit)
 
     if (!isValidDate) throw new HttpException(400, ERRORS.INVITE.EXPIRED)
+
+    if (invite.answered) throw new HttpException(400, ERRORS.INVITE.ALREADY_ANSWER)
   }
 }

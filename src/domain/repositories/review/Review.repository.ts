@@ -15,27 +15,28 @@ export class ReviewRepository implements IReviewRepository {
     private inviteToReviewRepository: InviteToReviewRepository
   ) {}
 
-  async create(candidate_id: string, payload: CreateReviewDTO) {
+  async create(candidateId: string, payload: CreateReviewDTO) {
     const companyExist = await this.companyRepository.findById(payload.company_id)
 
     if (!companyExist) throw new HttpException(404, ERRORS.COMPANY.NOT_FOUND)
 
     await this.inviteToReviewRepository.validate(payload.invite_id)
 
+    const reviewId = randomUUID()
+
     await this.prisma.review.create({
       data: {
-        id: randomUUID(),
+        id: reviewId,
         category: payload.category,
         description: payload?.description,
         jobTitle: payload.jobTitle,
         nps: payload.nps,
         jobLink: payload.jobLink,
-        candidate_id,
+        candidate_id: candidateId,
         company_id: payload.company_id,
+        invite_id: payload.invite_id
       }
     })
-
-    await this.inviteToReviewRepository.markAsAnswered(payload.invite_id)
   }
 
   async findByCandidateId (id: string) {
