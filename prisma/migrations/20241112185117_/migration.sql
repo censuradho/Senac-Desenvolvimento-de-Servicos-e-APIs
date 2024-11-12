@@ -23,7 +23,7 @@ CREATE TABLE "users" (
 -- CreateTable
 CREATE TABLE "reviews" (
     "id" TEXT NOT NULL PRIMARY KEY,
-    "invite_id" TEXT NOT NULL,
+    "invite_id" TEXT,
     "nps" INTEGER NOT NULL,
     "jobTitle" TEXT NOT NULL,
     "description" TEXT,
@@ -33,7 +33,7 @@ CREATE TABLE "reviews" (
     "company_id" TEXT NOT NULL,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT "reviews_invite_id_fkey" FOREIGN KEY ("invite_id") REFERENCES "invitesToReview" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "reviews_invite_id_fkey" FOREIGN KEY ("invite_id") REFERENCES "invitesToReview" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
     CONSTRAINT "reviews_candidate_id_fkey" FOREIGN KEY ("candidate_id") REFERENCES "candidates" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
     CONSTRAINT "reviews_company_id_fkey" FOREIGN KEY ("company_id") REFERENCES "companies" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );

@@ -43,8 +43,8 @@ model User {
 model Review {
   id String @id
 
-  invite_id String @unique
-  invite InviteToReview @relation(fields: [invite_id], references: [id])
+  invite_id String? @unique
+  invite InviteToReview? @relation(fields: [invite_id], references: [id])
 
   nps Int
 
