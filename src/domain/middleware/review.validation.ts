@@ -17,6 +17,7 @@ export async function createReviewBodyValidationRequest (req: Request, res: Resp
     validation.jobLink = body.jobLink
     validation.jobTitle = body.jobTitle
     validation.nps = body.nps
+    validation.invite_id = body.invite_id
 
     await validateOrReject(validation)
 

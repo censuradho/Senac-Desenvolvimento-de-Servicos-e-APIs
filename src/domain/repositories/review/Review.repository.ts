@@ -31,9 +31,11 @@ export class ReviewRepository implements IReviewRepository {
         nps: payload.nps,
         jobLink: payload.jobLink,
         candidate_id,
-        company_id: payload.company_id
+        company_id: payload.company_id,
       }
     })
+
+    await this.inviteToReviewRepository.markAsAnswered(payload.invite_id)
   }
 
   async findByCandidateId (id: string) {

@@ -41,7 +41,8 @@ export class InviteToReviewRepository implements IInviteToReviewRepository {
         id
       },
       data: {
-        answered: true
+        answered: true,
+        updatedAt: new Date()
       }
     })
   }

@@ -4,7 +4,7 @@ import { PrismaClient } from '@prisma/client';
 import { HttpException } from '@/domain/models/HttpException';
 import { ERRORS } from '@/shared/errors';
 import { randomUUID } from 'crypto';
-
+  
 export class CandidateRepository implements ICandidateRepository {
   constructor (
     private prisma: PrismaClient
@@ -15,12 +15,12 @@ export class CandidateRepository implements ICandidateRepository {
 
     if (alreadyRegister) throw new HttpException(401, ERRORS.CANDIDATE.PROFILE_ALREADY_REGISTER)
 
-      await this.prisma.candidate.create({
-        data: {
-          id: randomUUID(),
-          user_id
-        }
-      })
+    await this.prisma.candidate.create({
+      data: {
+        id: randomUUID(),
+        user_id
+      }
+    })
   }
 
   findByUserId(user_id: string): Promise<CandidateEntity | null> {
