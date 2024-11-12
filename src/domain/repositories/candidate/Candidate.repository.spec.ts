@@ -4,7 +4,7 @@ import { CandidateRepository } from "./Candidate.repository";
 import { candidateMock } from "@/__mock__/candidate";
 import { ERRORS } from "@/shared/errors";
 
-describe('Candidaterepository', () => {
+describe('CandidateRepository', () => {
   let mockCtx: MockContext
   let ctx: Context
 
