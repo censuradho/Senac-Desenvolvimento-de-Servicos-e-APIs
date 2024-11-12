@@ -13,4 +13,13 @@ export class EmployerRepository implements IEmployerRepository {
       }
     })
   }
+
+  findByUserIdAndCompanyId (userId: string, companyId: string) {
+    return this.prisma.employer.findFirst({
+      where: {
+        user_id: userId,
+        company_id: companyId
+      }
+    })
+  }
 }

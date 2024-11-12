@@ -30,7 +30,7 @@ export class CompanyController {
         message: ERRORS.FILE.FILE_IS_REQUIRED
       })
 
-    const companyId = req.params.id
+    const companyId = req.company?.companyId!!
 
     await this.repository.avatarUpload(companyId, req.file)
     return res.sendStatus(200)

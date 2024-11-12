@@ -1,15 +1,26 @@
 import { Router } from "express";
 
-import { ReviewRepository } from "@/domain/repositories/review/Review.repository";
 import { prisma } from "@/shared/PrismaClient";
+
 import { ReviewController } from "@/infra/controllers/review.controller";
+
+import { ReviewRepository } from "@/domain/repositories/review/Review.repository";
 import { createReviewBodyValidationRequest } from "@/domain/middleware/review.validation";
 import { jwtMiddleware } from "@/domain/middleware/auth.middleware";
 import { CompanyRepository } from "@/domain/repositories/company/CompanyRepository";
+import { EmployerRepository } from "@/domain/repositories/employer/EmployerRepository";
+import { FileUploadService } from "@/domain/service/fileUpload/FileUpload.service";
 
 const reviewRoute = Router()
 
-const companyRepository = new CompanyRepository(prisma)
+const fileUploadService = new FileUploadService()
+const employerRepository = new EmployerRepository(prisma)
+const companyRepository = new CompanyRepository(
+  prisma, 
+  employerRepository, 
+  fileUploadService
+)
+
 const repository = new ReviewRepository(
   prisma, 
   companyRepository
