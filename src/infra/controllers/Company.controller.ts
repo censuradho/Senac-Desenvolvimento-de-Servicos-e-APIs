@@ -1,4 +1,5 @@
 import { HttpException } from "@/domain/models/HttpException";
+import { JWTPayloadEmployer } from "@/domain/models/JWTPayload";
 import { CompanyRepository } from "@/domain/repositories/company/CompanyRepository";
 import { ERRORS } from "@/shared/errors";
 import { Request, Response } from "express";
@@ -10,7 +11,14 @@ export class CompanyController {
 
   async create(req: Request, res: Response) {
     try {
-      await this.repository.create(req.company?.user_id as string, req.body)
+      const id = await this.repository.create(req.company?.user_id as string, req.body)
+
+      const user = req.company as JWTPayloadEmployer
+
+      req.company = {
+        ...(user && user),
+        companyId: id
+      }
 
       return res.sendStatus(201)
     } catch (error: any) {

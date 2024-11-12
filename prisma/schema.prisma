@@ -13,7 +13,7 @@ model InviteToReview {
 
   validDays Int
 
-  answerd Boolean @default(false)
+  answered Boolean @default(false)
 
   createdAt DateTime @default(now())
 

@@ -2,7 +2,7 @@
 CREATE TABLE "invitesToReview" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "validDays" INTEGER NOT NULL,
-    "answerd" BOOLEAN NOT NULL DEFAULT false,
+    "answered" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "employer_id" TEXT NOT NULL,
     CONSTRAINT "invitesToReview_employer_id_fkey" FOREIGN KEY ("employer_id") REFERENCES "employers" ("id") ON DELETE RESTRICT ON UPDATE CASCADE

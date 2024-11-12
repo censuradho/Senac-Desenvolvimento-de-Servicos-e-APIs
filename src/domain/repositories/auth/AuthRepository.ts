@@ -55,7 +55,8 @@ export class AuthRepository implements IAuthRepository {
     const jwtPayload = new JWTPayloadEmployer(
       user.id,
       user.role as UserRole,
-      employer?.company_id
+      employer?.id,
+      employer?.company_id,
     )
 
     const token = Jwt.generateAccessToken(

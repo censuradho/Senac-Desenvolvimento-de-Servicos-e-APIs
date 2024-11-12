@@ -1,1 +1,1 @@
-export interface InviteToReviewRepository {}
+export interface IInviteToReviewRepository {}

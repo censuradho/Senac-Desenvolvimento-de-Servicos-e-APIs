@@ -11,7 +11,8 @@ export class JWTPayloadEmployer implements JWTPayload {
   constructor (
     public user_id: string,
     public userRole: UserRole,
-    public companyId?: string
+    public employerId?: string,
+    public companyId?: string,
   ) {}
 }
 

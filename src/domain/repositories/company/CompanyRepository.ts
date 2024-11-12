@@ -29,6 +29,8 @@ export class CompanyRepository implements ICompanyRepository {
 
     if (companyExist) throw new HttpException(400, 'COMPANY_CNPJ_ALREADY_EXIST')
 
+    const companyId = randomUUID()
+
     await this.prisma.company.create({
       data: {
         id: randomUUID(),
@@ -42,6 +44,8 @@ export class CompanyRepository implements ICompanyRepository {
         }
       }
     })
+
+    return companyId
   }
 
   async findById (id: string) {
