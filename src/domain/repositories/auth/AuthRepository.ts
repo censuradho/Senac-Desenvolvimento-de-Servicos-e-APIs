@@ -6,7 +6,7 @@ import { CreateUserDTO } from '@/domain/dto/User.dto';
 import { UserEntity } from '@/domain/entities/User.entity';
 import { HttpException } from '@/domain/models/HttpException';
 import { JWTPayloadCandidate, JWTPayloadEmployer } from '@/domain/models/JWTPayload';
-import { userCandidateModel, UserEmployerModel, UserModel } from '@/domain/models/UserModel';
+import { UserCandidateModel, UserEmployerModel, UserModel } from '@/domain/models/UserModel';
 import { UserRepository } from '@/domain/repositories/user/UserRepository';
 import { UserRole } from '@/domain/dto/User.dto';
 import { EmployerRepository } from '@/domain/repositories/employer/EmployerRepository';
@@ -49,7 +49,7 @@ export class AuthRepository implements IAuthRepository {
     return await this.generateJWTCandidate(user)
   }
 
-  async generateJWTEmployer (user: UserEntity) {
+  private async generateJWTEmployer (user: UserEntity) {
     const employer = await this.employerRepository.findByUserId(user.id)
 
     const jwtPayload = new JWTPayloadEmployer(
@@ -66,7 +66,7 @@ export class AuthRepository implements IAuthRepository {
     return token
   }
 
-  async generateJWTCandidate (user: UserEntity) {
+  private async generateJWTCandidate (user: UserEntity) {
     const candidate = await this.candidateRepository.findByUserId(user.id)
 
     const jwtPayload = new JWTPayloadCandidate(
@@ -87,10 +87,11 @@ export class AuthRepository implements IAuthRepository {
 
   async signUpWithEmailAndPasswordCandidate (payload: CreateUserDTO) {
     const userId = await this.userRepository.create(UserRole.CANDIDATE, payload)
+
     await this.candidateRepository.create(userId)
   }
 
-  async me (user_id: string) {
+  private async me (user_id: string) {
     const user=  await this.userRepository.findById(user_id)
 
     if (!user) return null
@@ -120,7 +121,7 @@ export class AuthRepository implements IAuthRepository {
 
     const entity = await this.candidateRepository.findByUserId(user_id)
 
-    return new userCandidateModel({
+    return new UserCandidateModel({
       ...user,
       ...(entity && ({
         candidate: new CandidateModel(entity)

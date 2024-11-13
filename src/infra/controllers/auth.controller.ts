@@ -104,30 +104,6 @@ export class AuthController {
     }
   }
 
-  async me (req: Request, res: Response) {
-    try {
-      if (!req?.user) return res.status(401).json({
-        message: ERRORS.AUTH.PROVIDE_TOKEN
-      })
-  
-      const user = await this.authRepository.me(req?.user?.user_id)
-  
-      if (!user) return res.status(401).json({
-        message: ERRORS.AUTH.PROVIDE_TOKEN
-      })
-  
-      return res.json(user)
-    } catch (error: any) {
-      req.log.error(error)
-
-      if (error instanceof HttpException) {
-        return res.status(error.status).json({ message: error.message })
-      }
-
-      return res.sendStatus(500)    
-    }
-  }
-
   async meEmployer (req: Request, res: Response) {
     try {
       const jwtPayload = req?.company as JWTPayloadEmployer

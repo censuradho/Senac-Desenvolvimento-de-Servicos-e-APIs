@@ -44,7 +44,7 @@ export class UserEmployerModel implements UserModel {
   }
 }
 
-export class userCandidateModel implements UserModel {
+export class UserCandidateModel implements UserModel {
   email: string;
   firstName: string;
   id: string;
@@ -52,7 +52,7 @@ export class userCandidateModel implements UserModel {
   role: string;
   candidate?: CandidateModel
 
-  constructor (data: userCandidateModel) {
+  constructor (data: UserCandidateModel) {
     this.email = data.email
     this.firstName = data.firstName
     this.id = data.id

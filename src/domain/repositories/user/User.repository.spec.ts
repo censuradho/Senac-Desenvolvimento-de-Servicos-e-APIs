@@ -3,7 +3,7 @@ import { Context, createMockContext, MockContext } from "@/__test__/setup";
 import { beforeEach, describe, expect, it } from "vitest";
 import { UserRepository } from "./UserRepository";
 import { randomUUID } from "crypto";
-import { createUserPayload, useCandidateMock } from "@/__mock__/user";
+import { createUserPayload, userCandidateEntityMock } from "@/__mock__/user";
 import { HttpException } from '@/domain/models/HttpException';
 import { ERRORS } from '@/shared/errors';
 import bcrypt from 'bcrypt';
@@ -44,7 +44,7 @@ describe('UserRepository', () => {
   })
 
   describe('create method', () => {
-    const [user] = useCandidateMock
+    const user = userCandidateEntityMock
 
     it ('Should throw an exception if try to register 2 users with same email', async () => {
       mock.prisma.user.findFirst.mockResolvedValue(user)
