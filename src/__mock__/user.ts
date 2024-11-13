@@ -6,7 +6,7 @@ export const createUserPayload: CreateUserDTO = {
   email: 'email@email.com',
   firstName: 'firstName',
   lastName: 'lastName',
-  password: 'password'
+  password: 'passwordasdasd'
 }
 
 export const useCandidateMock: UserEntity[] = [
@@ -16,7 +16,7 @@ export const useCandidateMock: UserEntity[] = [
     email: 'email@email.com',
     firstName: 'firstName',
     lastName: 'lastName',
-    password: 'hash',
+    password: 'passwordasdasd',
     id: randomUUID(),
     role: UserRole.CANDIDATE
   }

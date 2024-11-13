@@ -6,6 +6,7 @@ import { UserEntity } from '@/domain/entities/User.entity';
 import { HttpException } from '@/domain/models/HttpException';
 import { PrismaClient } from '@prisma/client';
 import { IUserRepository } from './IUserRepository';
+import { ERRORS } from '@/shared/errors';
 
 export class UserRepository implements IUserRepository {
   constructor (
@@ -34,11 +35,11 @@ export class UserRepository implements IUserRepository {
 
     const { password, ...otherPayload } = payload
 
-    if (userAlreadyExist) throw new HttpException(401, 'USER_ALREADY_EXIST')
+    if (userAlreadyExist) throw new HttpException(400, ERRORS.USER.ALREADY_EXIST)
 
     const hashPassword = await bcrypt.hash(password, 10)
     const id = randomUUID()
-
+  
     await this.prisma.user.create({
       data: {
         id,
