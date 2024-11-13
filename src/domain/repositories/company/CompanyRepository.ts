@@ -17,17 +17,17 @@ export class CompanyRepository implements ICompanyRepository {
   ) {}
 
   async create (user_id: string, payload: CreateCompanyDTO) {
+    const userAlreadyRelatedCompany = await this.employerRepository.findByUserId(user_id)
+
+    if (userAlreadyRelatedCompany) throw new HttpException(400, ERRORS.EMPLOYER.ALREADY_HAVE_COMPANY_RELATED)
+
     const companyExist = await this.prisma.company.findFirst({
       where: {
         cnpj: payload.cnpj,
       }
     })
 
-    const userAlreadyRelatedCompany = await this.employerRepository.findByUserId(user_id)
-
-    if (userAlreadyRelatedCompany) throw new HttpException(400, ERRORS.EMPLOYER.ALREADY_HAVE_COMPANY_RELATED)
-
-    if (companyExist) throw new HttpException(400, 'COMPANY_CNPJ_ALREADY_EXIST')
+    if (companyExist) throw new HttpException(400, ERRORS.COMPANY.CNPJ_ALREADY_EXIST)
 
     const companyId = randomUUID()
 
