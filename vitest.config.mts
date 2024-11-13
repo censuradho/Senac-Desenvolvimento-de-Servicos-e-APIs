@@ -1,4 +1,5 @@
 import { resolve } from 'node:path'
+import { config } from "dotenv";
 
 import { defineConfig } from 'vitest/config';
 
@@ -10,7 +11,10 @@ export default defineConfig({
       reporter: ['text', 'json', 'html'],
     },
     include: ['**/*/*.spec.ts'],
-    setupFiles: ['./src/__test__/setup.ts']
+    setupFiles: ['./src/__test__/setup.ts'],
+    env: {
+      ...config({ path: './.env.test' }).parsed,
+    }
   },
   resolve: {
     alias: [{ find: '@', replacement: resolve(__dirname, 'src') }]
