@@ -21,7 +21,7 @@ describe('AuthMiddlewares', () => {
       expect(nextMock).not.toHaveBeenCalled()
     })
 
-    it ('Should return 401 and do logou if userRole is not UserRole.CANDIDATE', async () => {
+    it ('Should return 401 and do logout if userRole is not equal to UserRole.CANDIDATE', async () => {
       reqMock.cookies = { auth: 'validToken' };
 
       (Jwt.verifyAccessToken as Mock).mockReturnValueOnce({
