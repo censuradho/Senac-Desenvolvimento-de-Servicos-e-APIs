@@ -13,7 +13,7 @@ export default defineConfig({
     include: ['**/*/*.spec.ts'],
     setupFiles: ['./src/__test__/setup.ts'],
     env: {
-      ...config({ path: './.env.test' }).parsed,
+      ...config({ path: './.env' }).parsed,
     }
   },
   resolve: {
