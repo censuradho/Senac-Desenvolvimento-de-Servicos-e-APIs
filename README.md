@@ -83,14 +83,19 @@ $ npm i
 
 2. Copiar o arquivo `.env.exemple` na raiz do projeto, renomeando-o para `.env`
 
-3. Rode o ambiente de desenvolvimento
+3. Gerando o banco de dados local
 
+```bash
+npm run generate
+```
+
+4. Rode o ambiente de desenvolvimento
 
 ```bash
 $ npm run dev
 ```
 
-4. Agora, se acessar o path `http://localhost:3333`, devera aparecer a seguinte mensagem:
+5. Agora, se acessar o path `http://localhost:3333`, devera aparecer a seguinte mensagem:
 
 ```json
 { "ok": "server is on" }
