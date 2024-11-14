@@ -3,7 +3,7 @@ import { InviteToReviewController } from "@/infra/controllers/inviteToReview.con
 
 import { InviteToReviewRepository } from "@/domain/repositories/InviteToReview/InviteToReview.repository";
 import { createInviteToReviewSchemaValidation } from "@/domain/middleware/inviteToReview.validations";
-import { jwtMiddlewareEmployer } from "@/domain/middleware/auth.middleware";
+import { jwtMiddlewareEmployer } from "@/domain/middleware/auth";
 
 import { prisma } from "@/shared/PrismaClient";
 

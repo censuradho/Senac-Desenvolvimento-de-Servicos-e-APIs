@@ -6,7 +6,7 @@ import { ReviewController } from "@/infra/controllers/review.controller";
 
 import { ReviewRepository } from "@/domain/repositories/review/Review.repository";
 import { createReviewBodyValidationRequest } from "@/domain/middleware/review.validation";
-import { jwtMiddleware } from "@/domain/middleware/auth.middleware";
+import { jwtMiddleware } from "@/domain/middleware/auth";
 import { CompanyRepository } from "@/domain/repositories/company/CompanyRepository";
 import { EmployerRepository } from "@/domain/repositories/employer/EmployerRepository";
 import { FileUploadService } from "@/domain/service/fileUpload/FileUpload.service";

@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { jwtMiddlewareEmployer } from "@/domain/middleware/auth.middleware";
+import { jwtMiddlewareEmployer } from "@/domain/middleware/auth";
 import { createCompanyRequestBodyValidation } from "@/domain/middleware/company.validations";
 import { uploadSingleFileMiddleware } from "@/domain/middleware/fileUpload.middleware";
 import { CompanyRepository } from "@/domain/repositories/company/CompanyRepository";

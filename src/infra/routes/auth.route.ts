@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import { jwtMiddleware, jwtMiddlewareEmployer } from '@/domain/middleware/auth.middleware';
+import { jwtMiddleware, jwtMiddlewareEmployer } from '@/domain/middleware/auth';
 import { signInWithEmailAndPasswordRequestBodyValidation } from '@/domain/middleware/auth.validations';
 import { createUserValidation } from '@/domain/middleware/user.validations';
 import { AuthRepository } from '@/domain/repositories/auth/AuthRepository';
