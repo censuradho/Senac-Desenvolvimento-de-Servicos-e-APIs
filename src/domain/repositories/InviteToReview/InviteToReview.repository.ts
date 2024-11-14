@@ -1,12 +1,12 @@
+import { PrismaClient } from "@prisma/client";
+import { randomUUID } from "crypto";
+import { addDays, isBefore } from 'date-fns'
+
 import { CreateInviteToReviewDTO } from "@/domain/dto/InviteToReview.dto";
 import { HttpException } from "@/domain/models/HttpException";
 import { ERRORS } from "@/shared/errors";
 
-import { PrismaClient } from "@prisma/client";
-import { randomUUID } from "crypto";
 import { IInviteToReviewRepository } from "./IInviteToReview.repository";
-
-import { addDays, isBefore } from 'date-fns'
 
 export class InviteToReviewRepository implements IInviteToReviewRepository {
   constructor (
@@ -60,5 +60,7 @@ export class InviteToReviewRepository implements IInviteToReviewRepository {
     if (!isValidDate) throw new HttpException(400, ERRORS.INVITE.EXPIRED)
 
     if (invite.answered) throw new HttpException(400, ERRORS.INVITE.ALREADY_ANSWER)
+
+    return true
   }
 }
